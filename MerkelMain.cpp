@@ -13,7 +13,7 @@ MerkelMain::MerkelMain() // constructor is for creating instance of object and e
 
 void MerkelMain::init() // start the object running
 {
-    // loadOrderBook(); // call function
+
     std::string input;
     currentTime = orderBook.getEarliestTime();
 
