@@ -31,11 +31,15 @@ void MerkelMain::init() // start the object running
 /* print the user menu */
 void MerkelMain::printMenu()
 {
-    // 1 print help
+    // print help
     std::cout << "Help:" << std::endl;
-    std::cout << "  Print help commands: " << std::endl << std::endl;
+    std::cout << "  Print all help commands: " << std::endl << std::endl;
 
-    // 7 exit
+    // print help cmd
+    std::cout << "Help <cmd>:" << std::endl;
+    std::cout << "  Print 'help <cmd> to get specific help for the command: " << std::endl << std::endl;
+
+    // exit
     std::cout << "Exit:" << std::endl;
     std::cout << "  Exit the trading platform!" << std::endl << std::endl;
 
@@ -99,10 +103,132 @@ void MerkelMain::processUserInput(std::string userInput)
         MerkelMain::printHelp();
     }
 
+    else if (userInput == "help prod")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help min")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help max")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help avg")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help predict")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help time")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help step")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help my own")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help prod")
+    {
+        std::cout << "You requested help with the 'prod' command." << std::endl;
+        std::cout << "The <prod> command lists all available products, and no additional arguements are neededhelp." << std::endl;
+        std::cout << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl;
+    }
+
+    else if (userInput == "help min")
+    {
+        std::cout << "You requested help with the 'min' command." << std::endl;
+        std::cout << "The <min> command finds the minimum bid or ask for a specified product in the current time period." << std::endl;
+        std::cout << "Additional arguments required are <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
+        std::cout << "For example, 'The min ask for ETH/BTC is 1.0.'" << std::endl;
+    }
+
+    else if (userInput == "help max")
+    {
+        std::cout << "You requested help with the 'max' command." << std::endl;
+        std::cout << "The <max> command finds the maximum bid or ask for a specified product in the current time period." << std::endl;
+        std::cout << "Additional arguments required are <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
+        std::cout << "For example, 'The max ask for ETH/BTC is 1.0.'" << std::endl;
+    }
+
+    else if (userInput == "help avg")
+    {
+        std::cout << "You requested help with the 'avg' command." << std::endl;
+        std::cout << "The <avg> command computes the average bid or ask for the specified product over the specified number of time periods." << std::endl;
+        std::cout << "Additional arguments required are <int> of time periods, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
+        std::cout << "For example, 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl;
+    }
+
+    else if (userInput == "help predict")
+    {
+        std::cout << "You requested help with the 'predict' command." << std::endl;
+        std::cout << "The <predict> command will predict the maximum or minimum bid or ask for the specific product specified in the next time period." << std::endl;
+        std::cout << "Additional arguments required are <min> or <max>, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
+        std::cout << "For example, 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl;
+    }
+
+    else if (userInput == "help time")
+    {
+        std::cout << "You requested help with the 'time' command." << std::endl;
+        std::cout << "The <time> command lists the current time period in the dataset." << std::endl;
+        std::cout << "For example, 2020/03/17 17:01:24." << std::endl;
+    }
+
+    else if (userInput == "help step")
+    {
+        std::cout << "You requested help with the 'step' command." << std::endl;
+        std::cout << "The <step> command moves trading to the next time period." << std::endl;
+        std::cout << "For example, ." << std::endl;
+    }
+
+    else if (userInput == "help my own")
+    {
+        std::cout << "You requested help with the 'my own' command." << std::endl;
+        std::cout << "The <my own> ." << std::endl;
+        std::cout << "For example, " << std::endl;
+    }
+
     else if (userInput == "exit")
     {
         std::cout << "Exiting the program!" << std::endl << std::endl;
         exitSession();
+    }
+
+    else
+    {
+    std::cout << "Your input did not identify a menu or help option." << std::endl;
+    std::cout << "Please re-enter a selection." << std::endl;
     }
 }
 
