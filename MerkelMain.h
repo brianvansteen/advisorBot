@@ -20,7 +20,7 @@ private:
     void printHelp(); // menu 1
     std::string userInput();
 
-    std::vector<std::string> helpCommand;
+    std::string helpCommand;
 
     void processUserInput(std::string userSelection);
 
