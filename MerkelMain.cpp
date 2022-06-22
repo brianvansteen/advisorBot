@@ -271,7 +271,7 @@ void MerkelMain::processUserInput(std::string userInput)
         }
         catch (const std::exception& e)
         {
-            std::cout << "Please enter a valid number, not " << line << "!" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a valid number, not " << line << "!" << std::endl;
         }
 
         std::cout << "advisorBot> " << "You selected: " << userCommand << std::endl << std::endl;
@@ -294,138 +294,143 @@ void MerkelMain::processUserInput(std::string userInput)
         {
         case 1:
             std::cout << "1: prod"<<std::endl;
-            std::cout << "Please enter a 'prod' command in the following format: " << std::endl;
-            std::cout << "prod" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a 'prod' command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "prod" << std::endl;
             std::getline(std::cin, prodCommand);
             std::transform(prodCommand.begin(), prodCommand.end(), prodCommand.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "These are the available products:" << std::endl << std::endl;
+            std::cout << "advisorBot> " << "These are the available products:" << std::endl << std::endl;
             for (std::string const& p : orderBook.getKnownProducts())
             {
-                std::cout << "Product: " << p << std::endl; // what are the products; timestamps also works
+                std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
             }
             break;
+
         case 2:
             std::cout << "2: min" << std::endl;
-            std::cout << "Please enter a <min> command in the following format: " << std::endl;
-            std::cout << "min ETH/BTC ask" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a <min> command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "min ETH/BTC ask" << std::endl;
             std::getline(std::cin, minInput);
             //std::transform(minInput.begin(), minInput.end(), minInput.begin(), [](unsigned char c) {return std::tolower(c); });
             std::cout << "You entered: " << minInput << std::endl << std::endl;
             minCommand = CSVReader::tokenise(minInput, ' ');
             for (const auto& command : minCommand)
-                    std::cout << "Entered: " << command << std::endl;
+                    std::cout << "advisorBot> " << "Entered: " << command << std::endl;
             if (minCommand[0] != "min")
             {
                 std::cout << "Please enter a valid <min> command!" << std::endl;
             }
 
-            //p = minCommand[1];
-            
             for (std::string const& p : orderBook.getKnownProducts())
             {
                 if (p == minCommand[1])
                 {
-                    std::cout << "Product: " << p << std::endl; // what are the products; timestamps also works
+                    std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
 
                     if (minCommand[2] == "ask")
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
 
-                        std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
-                        std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
-
-                        std::cout << std::endl;
+                        std::cout << "advisorBot> " << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
                     else
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
 
-                        std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
-                        std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
-
-                        std::cout << std::endl;
+                        std::cout << "advisorBot> " << "Min bid: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
                 }
             }
-
-            //trade = minCommand[2];
-            //if (trade == "ask")
-            //{
-            //    std::cout << "P: " << p << std::endl;
-            //    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
-            //    std::cout << "Trade: " << trade << std::endl;
-            //    std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
-            //}
-            //else
-            //{
-            //    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
-            //    std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
-            //}
             break;
+
         case 3:
             std::cout << "3: max" << std::endl;
-            std::cout << "Please enter a <max> command in the following format: " << std::endl;
-            std::cout << "max ETH/BTC ask" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a <max> command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "max ETH/BTC ask" << std::endl;
             std::getline(std::cin, maxInput);
-            std::transform(maxInput.begin(), maxInput.end(), maxInput.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "You entered: " << maxInput << std::endl << std::endl;
+            // std::transform(maxInput.begin(), maxInput.end(), maxInput.begin(), [](unsigned char c) {return std::tolower(c); });
+            std::cout << "advisorBot> " << "You entered: " << maxInput << std::endl << std::endl;
             maxCommand = CSVReader::tokenise(maxInput, ' ');
             for (const auto& command : maxCommand)
-                std::cout << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
             if (maxCommand[0] != "max")
             {
-                std::cout << "Please enter a valid <max> command!" << std::endl;
+                std::cout << "advisorBot> " << "Please enter a valid <max> command!" << std::endl;
+            }
+            for (std::string const& p : orderBook.getKnownProducts())
+            {
+                if (p == maxCommand[1])
+                {
+                    std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
+
+                    if (maxCommand[2] == "ask")
+                    {
+                        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+
+                        std::cout << "advisorBot> " << "Max bid: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                    }
+                    else
+                    {
+                        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
+
+                        std::cout << "advisorBot> " << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                    }
+                }
             }
             break;
+
         case 4:
             std::cout << "4: avg" << std::endl;
-            std::cout << "Please enter a <avg> command in the following format: " << std::endl;
-            std::cout << "avg ETH/BTC ask 10" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a <avg> command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "avg ETH/BTC ask 10" << std::endl;
             std::getline(std::cin, avgInput);
             std::transform(avgInput.begin(), avgInput.end(), avgInput.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "You entered: " << avgInput << std::endl << std::endl;
+            std::cout << "advisorBot> " << "You entered: " << avgInput << std::endl << std::endl;
             avgCommand = CSVReader::tokenise(avgInput, ' ');
             for (const auto& command : avgCommand)
-                std::cout << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
             if (avgCommand[0] != "avg")
             {
-                std::cout << "Please enter a valid <avg> command!" << std::endl;
+                std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
             }
             break;
+
         case 5:
             std::cout << "5: predict" << std::endl;
-            std::cout << "Please enter a <predict> command in the following format: " << std::endl;
-            std::cout << "predict max ETH/BTC bid" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a <predict> command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "predict max ETH/BTC bid" << std::endl;
             std::getline(std::cin, predictInput);
             std::transform(predictInput.begin(), predictInput.end(), predictInput.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "You entered: " << predictInput << std::endl << std::endl;
+            std::cout << "advisorBot> " << "You entered: " << predictInput << std::endl << std::endl;
             predictCommand = CSVReader::tokenise(predictInput, ' ');
             for (const auto& command : predictCommand)
-                std::cout << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
             if (predictCommand[0] != "predict")
             {
-                std::cout << "Please enter a valid <predict> command!" << std::endl;
+                std::cout << "advisorBot> " << "Please enter a valid <predict> command!" << std::endl;
             }
             break;
+
         case 6:
             std::cout << "6: my own" << std::endl;
-            std::cout << "Please enter a <my> command in the following format: " << std::endl;
-            std::cout << "" << std::endl;
+            std::cout << "advisorBot> " << "Please enter a <my> command in the following format: " << std::endl;
+            std::cout << "advisorBot> " << "" << std::endl;
             std::getline(std::cin, myInput);
             std::transform(myInput.begin(), myInput.end(), myInput.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "You entered: " << myInput << std::endl << std::endl;
+            std::cout << "advisorBot> " << "You entered: " << myInput << std::endl << std::endl;
             myCommand = CSVReader::tokenise(myInput, ' ');
             for (const auto& command : myCommand)
                 std::cout << "Entered: " << command << std::endl;
             if (myCommand[0] != "my")
             {
-                std::cout << "Please enter a valid <my> command!" << std::endl;
+                std::cout << "advisorBot> " << "Please enter a valid <my> command!" << std::endl;
             }
             break;
+
         case 7:
             std::cout << "7: time" << std::endl;
             std::cout << "advisorBot> " << "The current time period is: " << currentTime << std::endl << std::endl;
             break;
+
         case 8:
             std::cout << "8: step" << std::endl;
             currentTime = orderBook.getNextTime(currentTime); // update time
@@ -433,7 +438,7 @@ void MerkelMain::processUserInput(std::string userInput)
             break;
         }
         std::cout << std::endl;
-        std::cout << "Returning to main menu!" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "Returning to main menu!" << std::endl << std::endl;
         // MerkelMain::printCommandMenu();
 
     }
