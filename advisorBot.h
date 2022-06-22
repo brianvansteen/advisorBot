@@ -3,6 +3,8 @@
 #include "OrderBookEntry.h"
 #include <string>
 #include <map>
+#include <vector>
+#include <algorithm>
 
 enum class advisorMode { userMode, botMode };
 
@@ -10,8 +12,9 @@ class advisorBot
 {
 public:
 	advisorBot();
-	std::string botMode;
-	std::string userMode; // generate terminal description
+
+	static double getMin(std::vector<OrderBookEntry>& orders);
+	static double getMax(std::vector<OrderBookEntry>& orders);
 
 
 
