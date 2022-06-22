@@ -5,6 +5,7 @@
 #include "orderBookEntry.h"
 #include "OrderBook.h"
 #include "Wallet.h"
+#include "advisorBot.h"
 
 class MerkelMain // class definition
 {
@@ -17,10 +18,12 @@ public:
 private:
     //void loadOrderBook();
     void printMenu();
+    void printCommandMenu();
     void printHelp(); // menu 1
     std::string userInput();
 
-    std::string helpCommand;
+    std::vector<std::string> helpCommand;
+    std::vector<std::string> helpInput;
 
     void processUserInput(std::string userSelection);
 
@@ -28,8 +31,9 @@ private:
 
     int exitSession();
 
-    OrderBook orderBook{ "20200601.csv" };
+    OrderBook orderBook{ "20200317.csv" };
 
     Wallet wallet;
+
 };
 

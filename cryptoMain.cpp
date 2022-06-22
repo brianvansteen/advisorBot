@@ -18,10 +18,6 @@ int main()
     MerkelMain app{}; // call the constructor function, .h file
     app.init(); // call the init function; with comment from .h file
 
-  
-
-    // CSVReader reader;
-
     return 0;
 }
 

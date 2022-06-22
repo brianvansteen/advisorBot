@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="advisorBot.cpp" />
     <ClCompile Include="cryptoMain.cpp" />
     <ClCompile Include="csvReader.cpp" />
     <ClCompile Include="MerkelMain.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Wallet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="advisorBot.h" />
     <ClInclude Include="csvReader.h" />
     <ClInclude Include="MerkelMain.h" />
     <ClInclude Include="OrderBook.h" />
