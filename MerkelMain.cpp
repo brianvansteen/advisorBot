@@ -347,7 +347,6 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "Please enter a <max> command in the following format: " << std::endl;
             std::cout << "advisorBot> " << "max ETH/BTC ask" << std::endl;
             std::getline(std::cin, maxInput);
-            // std::transform(maxInput.begin(), maxInput.end(), maxInput.begin(), [](unsigned char c) {return std::tolower(c); });
             std::cout << "advisorBot> " << "You entered: " << maxInput << std::endl << std::endl;
             maxCommand = CSVReader::tokenise(maxInput, ' ');
             for (const auto& command : maxCommand)
@@ -393,12 +392,14 @@ void MerkelMain::processUserInput(std::string userInput)
                 std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
             }
             std::cout << "The current time is: " << currentTime << std::endl;
+            //std::vector<std::string> timestamps = orderBook.getTimestamps();
             for (std::string const& t : orderBook.getTimestamps())
             {
                 std::cout << "Timestamps: " << t << std::endl; // what are the timestamps
-                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
 
-                std::cout << "Asks seen: " << entries.size() << std::endl;
+                //int timeIndex = find(timestamps.begin(), timestamps.end(), currentTime) = timestamps.begin();
+                // std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+                // std::cout << "Asks seen: " << entries.size() << std::endl;
 
                 std::cout << std::endl;
             }
