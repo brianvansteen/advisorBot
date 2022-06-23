@@ -285,6 +285,10 @@ void MerkelMain::processUserInput(std::string userInput)
         std::vector<std::string> maxCommand;
         std::string avgInput;
         std::vector<std::string> avgCommand;
+        std::vector<std::string> timestamps;
+        std::vector<std::string> avgtimestamps;
+        int i;
+        ptrdiff_t pos;
         std::string predictInput;
         std::vector<std::string> predictCommand;
         std::string myInput;
@@ -392,17 +396,62 @@ void MerkelMain::processUserInput(std::string userInput)
                 std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
             }
             std::cout << "The current time is: " << currentTime << std::endl;
-            //std::vector<std::string> timestamps = orderBook.getTimestamps();
-            for (std::string const& t : orderBook.getTimestamps())
-            {
-                std::cout << "Timestamps: " << t << std::endl; // what are the timestamps
-
+            timestamps = orderBook.getTimestamps();
+            //for (std::string const& t : orderBook.getTimestamps())
+            //{
+            //    std::cout << "Timestamps: " << t << std::endl; // what are the timestamps
+            //}
                 //int timeIndex = find(timestamps.begin(), timestamps.end(), currentTime) = timestamps.begin();
                 // std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
                 // std::cout << "Asks seen: " << entries.size() << std::endl;
+            
+            std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+            std::cout << "Timestamp: " << timestamps[4] << std::endl;
+            pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
+            std::cout << "Index = " << pos << std::endl;
+            std::cout << std::endl;
+            
+            
+            std::cout << avgCommand[3]<<std::endl;
+            //for (i = std::stoi(avgCommand[3]) - 1; i >= 0; --i)
+            //{
+            //    avgtimestamps.push_back(timestamps[i]);
+            //}
 
-                std::cout << std::endl;
+            for (i = (pos - std::stoi(avgCommand[3])); i < std::stoi(avgCommand[3]); i++)
+            {
+                std::cout << "i: " << i << std::endl;
+                avgtimestamps.push_back(timestamps[i]);
             }
+
+            std::cout << "Length: " << avgtimestamps.size() << std::endl;
+            
+            for (std::string v : avgtimestamps)
+            {
+                std::cout << "Timestamp: " << v << std::endl;
+            }
+
+            //for (std::string const& p : orderBook.getKnownProducts())
+            //{
+            //    if (p == avgCommand[1])
+            //    {
+            //        std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+            //        if (maxCommand[2] == "ask")
+            //        {
+            //            std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+
+            //            std::cout << "advisorBot> " << "Max bid: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+            //        }
+            //        else
+            //        {
+            //            std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
+
+            //            std::cout << "advisorBot> " << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+            //        }
+            //    }
+            //}
+
             break;
 
         case 5:
