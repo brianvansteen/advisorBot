@@ -85,9 +85,9 @@ void MerkelMain::printCommandMenu()
 
 void MerkelMain::printHelp() // menu 1
 {
-    std::cout << "Advisorbot is a trading platform." << std::endl << std::endl;
-    std::cout << "The help commands are as follows." << std::endl<<std::endl;
-    std::cout << "If you want help for a specific command, enter as follow:" << std::endl;
+    std::cout << "advisorBot> " << "Advisorbot is a trading platform." << std::endl << std::endl;
+    std::cout << "advisorBot> " << "The help commands are as follows." << std::endl<<std::endl;
+    std::cout << "advisorBot> " << "If you want help for a specific command, enter as follow:" << std::endl;
     std::cout << "  help <cmd>" << std::endl <<std::endl;
     std::cout << "- prod:" << std::endl;
     std::cout <<"   print a list of currency trading products." << std::endl<<std::endl;
@@ -127,7 +127,7 @@ void MerkelMain::processUserInput(std::string userInput)
     {
         helpCommand = CSVReader::tokenise(userInput, ' ');
         for (const auto& command : helpCommand)
-            std::cout << "Entered: " << command << std::endl;
+            std::cout << "You entered: " << command << std::endl;
     }
     catch (const std::exception& e)
     {
@@ -314,7 +314,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "You entered: " << minInput << std::endl << std::endl;
             minCommand = CSVReader::tokenise(minInput, ' ');
             for (const auto& command : minCommand)
-                    std::cout << "advisorBot> " << "Entered: " << command << std::endl;
+                    std::cout << "advisorBot> " << "You entered: " << command << std::endl;
             if (minCommand[0] != "min")
             {
                 std::cout << "Please enter a valid <min> command!" << std::endl;
@@ -351,7 +351,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "You entered: " << maxInput << std::endl << std::endl;
             maxCommand = CSVReader::tokenise(maxInput, ' ');
             for (const auto& command : maxCommand)
-                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "You entered: " << command << std::endl;
             if (maxCommand[0] != "max")
             {
                 std::cout << "advisorBot> " << "Please enter a valid <max> command!" << std::endl;
@@ -387,10 +387,20 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "You entered: " << avgInput << std::endl << std::endl;
             avgCommand = CSVReader::tokenise(avgInput, ' ');
             for (const auto& command : avgCommand)
-                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "You entered: " << command << std::endl;
             if (avgCommand[0] != "avg")
             {
                 std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
+            }
+            std::cout << "The current time is: " << currentTime << std::endl;
+            for (std::string const& t : orderBook.getTimestamps())
+            {
+                std::cout << "Timestamps: " << t << std::endl; // what are the timestamps
+                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+
+                std::cout << "Asks seen: " << entries.size() << std::endl;
+
+                std::cout << std::endl;
             }
             break;
 
@@ -403,7 +413,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "You entered: " << predictInput << std::endl << std::endl;
             predictCommand = CSVReader::tokenise(predictInput, ' ');
             for (const auto& command : predictCommand)
-                std::cout << "advisorBot> " << "Entered: " << command << std::endl;
+                std::cout << "advisorBot> " << "You entered: " << command << std::endl;
             if (predictCommand[0] != "predict")
             {
                 std::cout << "advisorBot> " << "Please enter a valid <predict> command!" << std::endl;
@@ -419,7 +429,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "You entered: " << myInput << std::endl << std::endl;
             myCommand = CSVReader::tokenise(myInput, ' ');
             for (const auto& command : myCommand)
-                std::cout << "Entered: " << command << std::endl;
+                std::cout << "You entered: " << command << std::endl;
             if (myCommand[0] != "my")
             {
                 std::cout << "advisorBot> " << "Please enter a valid <my> command!" << std::endl;

@@ -11,6 +11,7 @@ public:
 	OrderBook(std::string filename); // constructor reading csv data file
 
 	std::vector<std::string> getKnownProducts(); // return vector of all known products in the dataset
+	std::vector<std::string> getTimestamps(); // return vector of all known timestamps in the dataset
 	
 	// return vector of Orders according to the sent filters
 	std::vector<OrderBookEntry> getOrders(OrderBookType type, std::string product, std::string timestamp);

@@ -20,7 +20,6 @@ std::vector<std::string> OrderBook::getKnownProducts() // return vector of all k
  
 	for (OrderBookEntry& e : orders) // from orders above, using OrderBookEntry class
 	{
-		// prodMap[e.timestamp] = true; // key is timestamp from OBE class; value is 'true'
 		prodMap[e.product] = true; // key is product from OBE class; value is 'true'
 	}
 
@@ -31,6 +30,28 @@ std::vector<std::string> OrderBook::getKnownProducts() // return vector of all k
 	}
 
 	return products; // function called from MerkelMain 'exchangestats' menu #2
+}
+
+
+std::vector<std::string> OrderBook::getTimestamps() // return vector of all known products in the dataset
+{
+	std::vector<std::string> timestamps; // define vector
+
+	std::map<std::string, bool> timeMap; // dictionary 'prodMap'
+
+	for (OrderBookEntry& e : orders) // from orders above, using OrderBookEntry class
+	{
+		timeMap[e.timestamp] = true; // key is timestamp from OBE class; value is 'true'
+		
+	}
+
+	// now flatten the map to a vector of strings
+	for (auto const& e : timeMap) // variable type is 'auto'
+	{
+		timestamps.push_back(e.first); // first is the key, i.e. product
+	}
+
+	return timestamps; // function called from MerkelMain 'exchangestats' menu #2
 }
 
 // return vector of Orders according to the sent filters of type (bid or ask), product and timestamp (i.e. 'currentTime)
