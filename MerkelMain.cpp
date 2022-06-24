@@ -39,20 +39,16 @@ void MerkelMain::printMenu()
     std::cout << "**** MAIN MENU ****"<<std::endl << std::endl;
     
     // print help
-    std::cout << "Help" << std::endl;
-    std::cout << "  Print all help commands: " << std::endl << std::endl;
+    std::cout << "Help:   print all help commands" << std::endl;
 
     // print help cmd
-    std::cout << "Help <cmd>" << std::endl;
-    std::cout << "  Print 'help <cmd>' to get specific help for the command: " << std::endl << std::endl;
-
-    std::cout << "Enter commands" << std::endl;
-    std::cout << "    - to execute individual commands." << std::endl << std::endl;
-
+    std::cout << "Help <cmd>:   print 'help <cmd>' to get specific help for the command" << std::endl;
+    
+    std::cout << "Enter commands:   to execute individual commands" << std::endl;
+    
     // exit
-    std::cout << "Exit" << std::endl;
-    std::cout << "  Exit the trading platform!" << std::endl << std::endl;
-
+    std::cout << "Exit:     to exit the trading platform!" << std::endl;
+    
     std::cout << "=======================================" << std::endl << std::endl;
 
 }
@@ -142,7 +138,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "Your inputs: " << command << std::endl;
 
     for (const auto& command : helpCommand)
-        std::cout << "advisorBot> " << "You entered helpCommands: " << command << std::endl;
+        std::cout << "advisorBot> " << "You entered help Commands: " << command << std::endl;
 
     std::cout << "advisorBot> " << "The input: " << helpInput[0] << std::endl;
 
@@ -223,17 +219,172 @@ void MerkelMain::processUserInput(std::string userInput)
 
     else if (userInput == "min")
     {
-        std::cout << "advisorBot> " << "You " << std::endl << std::endl;
+        std::string minInput;
+        std::vector<std::string> minCommand;
+        std::cout << "advisorBot> " << "Please enter a <min> command in the following format: " << std::endl;
+        std::cout << "advisorBot> " << "min ETH/BTC ask" << std::endl;
+        std::getline(std::cin, minInput);
+        std::cout << "You entered: " << minInput << std::endl << std::endl;
+        minCommand = CSVReader::tokenise(minInput, ' ');
+        for (const auto& command : minCommand)
+            std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+        if (minCommand[0] != "min")
+        {
+            std::cout << "Please enter a valid <min> command!" << std::endl;
+        }
+
+        for (std::string const& p : orderBook.getKnownProducts())
+        {
+            if (p == minCommand[1])
+            {
+                std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
+
+                if (minCommand[2] == "ask")
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+
+                    std::cout << "advisorBot> " << "Minimum ask " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
+                }
+                else
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
+
+                    std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
+                }
+            }
+        }
     }
 
     else if (userInput == "max")
     {
-        std::cout << "advisorBot> " << "You r" << std::endl << std::endl;
+        std::string maxInput;
+        std::vector<std::string> maxCommand;
+        std::cout << "advisorBot> " << "Please enter a <max> command in the following format: " << std::endl;
+        std::cout << "advisorBot> " << "max ETH/BTC ask" << std::endl;
+        std::getline(std::cin, maxInput);
+        std::cout << "advisorBot> " << "You entered: " << maxInput << std::endl << std::endl;
+        maxCommand = CSVReader::tokenise(maxInput, ' ');
+        for (const auto& command : maxCommand)
+            std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+        if (maxCommand[0] != "max")
+        {
+            std::cout << "advisorBot> " << "Please enter a valid <max> command!" << std::endl;
+        }
+        for (std::string const& p : orderBook.getKnownProducts())
+        {
+            if (p == maxCommand[1])
+            {
+                std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
+
+                if (maxCommand[2] == "ask")
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+
+                    std::cout << "advisorBot> " << "Maximum ask " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                }
+                else
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
+
+                    std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                }
+            }
+        }
     }
 
     else if (userInput == "avg")
     {
-        std::cout << "advisorBot > " << "You" << std::endl << std::endl;
+        std::string avgInput;
+        std::vector<std::string> avgCommand;
+        std::vector<std::string> timestamps;
+        std::vector<std::string> avgtimestamps;
+        int i;
+        ptrdiff_t pos;
+        std::cout << "advisorBot> " << "Please enter a <avg> command in the following format: " << std::endl;
+        std::cout << "advisorBot> " << "avg ETH/BTC ask 10" << std::endl;
+        std::getline(std::cin, avgInput);
+        std::cout << "advisorBot> " << "You entered: " << avgInput << std::endl << std::endl;
+        avgCommand = CSVReader::tokenise(avgInput, ' ');
+        for (const auto& command : avgCommand)
+            std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+        if (avgCommand[0] != "avg")
+        {
+            std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
+        }
+        std::cout << "The current time is: " << currentTime << std::endl;
+        timestamps = orderBook.getTimestamps();
+
+        std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+        pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
+        std::cout << "Index = " << pos << std::endl;
+        std::cout << std::endl;
+
+
+        std::cout << avgCommand[3] << std::endl;
+
+        for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++)
+        {
+            std::cout << "i: " << i << std::endl;
+            avgtimestamps.push_back(timestamps[i]);
+        }
+
+        std::cout << "Length: " << avgtimestamps.size() << std::endl;
+
+        for (std::string v : avgtimestamps)
+        {
+            std::cout << "Timestamp: " << v << std::endl;
+        }
+
+        std::cout << "Product: " << avgCommand[1] << std::endl;
+
+        for (std::string const& p : orderBook.getKnownProducts())
+        {
+            if (p == avgCommand[1])
+            {
+                std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+                std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+                    
+                if (avgCommand[2] == "bid")
+                {
+                    int bidCount = 0;
+                    double sum = 0;
+                    double bidAvg = 0;
+                    for (std::string const& t : avgtimestamps)
+                    {
+                        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
+
+                        std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                        std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                        double getAvg = OrderBook::getAvg(entries);
+                        std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                        bidCount += 1;
+                        sum += getAvg;
+                        bidAvg = sum / bidCount;
+                    }
+                    std::cout << "advisorBot> " << "The overall average bid for " << avgtimestamps.size() << " timestamp periods" << " is: " << bidAvg << std::endl << std::endl;
+                }
+                else
+                {
+                    int askCount = 0;
+                    double sum = 0;
+                    double askAvg = 0;
+                    for (std::string const& t : avgtimestamps)
+                    {
+                        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
+
+                        std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                        std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                        double getAvg = OrderBook::getAvg(entries);
+                        std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                        askCount += 1;
+                        sum += getAvg;
+                        askAvg = sum / askCount;
+                    }
+                    std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
+                } // end else
+            } // end if
+        } // end for
     }
 
     else if (userInput == "predict")
@@ -314,7 +465,6 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "Please enter a <min> command in the following format: " << std::endl;
             std::cout << "advisorBot> " << "min ETH/BTC ask" << std::endl;
             std::getline(std::cin, minInput);
-            //std::transform(minInput.begin(), minInput.end(), minInput.begin(), [](unsigned char c) {return std::tolower(c); });
             std::cout << "You entered: " << minInput << std::endl << std::endl;
             minCommand = CSVReader::tokenise(minInput, ' ');
             for (const auto& command : minCommand)
@@ -334,13 +484,13 @@ void MerkelMain::processUserInput(std::string userInput)
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
 
-                        std::cout << "advisorBot> " << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
+                        std::cout << "advisorBot> " << "Minimum ask " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
                     else
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
 
-                        std::cout << "advisorBot> " << "Min bid: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
+                        std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
                 }
             }
@@ -369,13 +519,13 @@ void MerkelMain::processUserInput(std::string userInput)
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
 
-                        std::cout << "advisorBot> " << "Max bid: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                        std::cout << "advisorBot> " << "Maximum ask " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                     }
                     else
                     {
                         std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, currentTime);
 
-                        std::cout << "advisorBot> " << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                        std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                     }
                 }
             }
@@ -425,8 +575,10 @@ void MerkelMain::processUserInput(std::string userInput)
                 if (p == avgCommand[1])
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
-
-                    if (avgCommand[2] == "ask")
+                    
+                    std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+                    
+                    if (avgCommand[2] == "bid")
                     {
                         int bidCount = 0;
                         double sum = 0;
@@ -435,15 +587,15 @@ void MerkelMain::processUserInput(std::string userInput)
                         {
                             std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
 
-                            std::cout << "advisorBot> " << "Min bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
-                            std::cout << "advisorBot> " << "Max bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                            std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                            std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                             double getAvg = OrderBook::getAvg(entries);
-                            std::cout << "advisorBot> " << "Avg bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                            std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                             bidCount += 1;
                             sum += getAvg;
                             bidAvg = sum / bidCount;
                         }
-                        std::cout << "advisorBot> " << "Average bid for " << avgtimestamps.size() << " timestamp periods" << " is: " << bidAvg << std::endl;
+                        std::cout << "advisorBot> " << "The overall average bid for " << avgtimestamps.size() << " timestamp periods" << " is: " << bidAvg << std::endl << std::endl;
                     }
                     else
                     {
@@ -454,15 +606,15 @@ void MerkelMain::processUserInput(std::string userInput)
                         {
                             std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
 
-                            std::cout << "advisorBot> " << "Min ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
-                            std::cout << "advisorBot> " << "Max ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
+                            std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                            std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                             double getAvg = OrderBook::getAvg(entries);
-                            std::cout << "advisorBot> " << "Avg ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                            std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                             askCount += 1;
                             sum += getAvg;
                             askAvg = sum / askCount;
                         }
-                        std::cout << "advisorBot> " << "Average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl;
+                        std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
                     } // end else
                 } // end if
             } // end for
