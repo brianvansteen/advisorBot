@@ -29,7 +29,7 @@ public:
 
 	static double getHighPrice(std::vector<OrderBookEntry>& orders);
 	static double getLowPrice(std::vector<OrderBookEntry>& orders);
-	static double getDelta(std::vector<OrderBookEntry>& orders);
+	static double getAvg(std::vector<OrderBookEntry>& orders);
 	
 private:
 	std::vector<OrderBookEntry> orders;
