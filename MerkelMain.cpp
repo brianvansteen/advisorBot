@@ -396,13 +396,6 @@ void MerkelMain::processUserInput(std::string userInput)
             }
             std::cout << "The current time is: " << currentTime << std::endl;
             timestamps = orderBook.getTimestamps();
-            //for (std::string const& t : orderBook.getTimestamps())
-            //{
-            //    std::cout << "Timestamps: " << t << std::endl; // what are the timestamps
-            //}
-                //int timeIndex = find(timestamps.begin(), timestamps.end(), currentTime) = timestamps.begin();
-                // std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
-                // std::cout << "Asks seen: " << entries.size() << std::endl;
             
             std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
             pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
@@ -411,10 +404,6 @@ void MerkelMain::processUserInput(std::string userInput)
             
             
             std::cout << avgCommand[3]<<std::endl;
-            //for (i = std::stoi(avgCommand[3]) - 1; i >= 0; --i)
-            //{
-            //    avgtimestamps.push_back(timestamps[i]);
-            //}
 
             for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++)
             {
@@ -474,9 +463,9 @@ void MerkelMain::processUserInput(std::string userInput)
                             askAvg = sum / askCount;
                         }
                         std::cout << "advisorBot> " << "Average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl;
-                    }
-                }
-            }
+                    } // end else
+                } // end if
+            } // end for
 
             break;
 
