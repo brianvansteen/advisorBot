@@ -41,7 +41,7 @@ void MerkelMain::printMenu()
     std::cout << "Help:             print all help commands" << std::endl << std::endl;
 
     // help <cmd> details
-    std::cout << "Help <cmd>:       print 'help <cmd>' to get specific help for the command" << std::endl << std::endl;
+    std::cout << "Help <cmd>:       print 'help <cmd>' to get help for a specific command" << std::endl << std::endl;
     
     // to enter individual commands
     std::cout << "Enter commands:   to execute individual commands" << std::endl << std::endl;
@@ -67,7 +67,7 @@ void MerkelMain::printCommandMenu() // the menu for the commands
     std::cout << "3" << "    - for max" << std::endl;
     std::cout << "4" << "    - for avg" << std::endl;
     std::cout << "5" << "    - for predict" << std::endl;
-    std::cout << "6" << "    - for my own" << std::endl;
+    std::cout << "6" << "    - for stdev" << std::endl;
     std::cout << "7" << "    - for time" << std::endl;
     std::cout << "8" << "    - for step" << std::endl;
     std::cout << "9" << "    - Exit the commands menu" << std::endl << std::endl;
@@ -93,8 +93,8 @@ void MerkelMain::printHelp() // the help menu
     std::cout << "  compute the average bid or ask, for a specific product, for a specific number of time periods." << std::endl << std::endl;
     std::cout << "- predict:" << std::endl;
     std::cout << "  predict the maximum or minimum bid or ask, for a specific product, in the next time period." << std::endl << std::endl;
-    std::cout << "- my own:" << std::endl;
-    std::cout << "  cccccc....... " <<std::endl <<std::endl;
+    std::cout << "- stdev:" << std::endl;
+    std::cout << "  calculate the standard deviation, for a specific product, for a specific number of time periods." <<std::endl <<std::endl;
     std::cout << "- time:" << std::endl;
     std::cout << "  print the current time period." << std::endl <<std::endl;
     std::cout << "- step:" << std::endl;
@@ -106,10 +106,10 @@ void MerkelMain::printHelp() // the help menu
 std::string MerkelMain::userInput() // get user input form the help menu options
 {
     std::string userSelection = " ";
-    std::cout << "advisorBot> " << "Make a selection from the options:" << std::endl << std::endl;
+    std::cout << "advisorBot> " << "Make a selection from the menu options:" << std::endl << std::endl;
         std::getline(std::cin, userSelection);
         std::transform(userSelection.begin(), userSelection.end(), userSelection.begin(),[](unsigned char c) {return std::tolower(c); }); // convert all characters to lower case
-        std::cout << "advisorBot " << "You selected: " << userSelection << std::endl <<std::endl;
+        std::cout << "advisorBot> " << "You selected: " << userSelection << std::endl <<std::endl;
         return userSelection; // for use in processUserInput
 }
 
@@ -128,17 +128,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "Please enter a valid input, not " << userInput << "!" << std::endl;
     }
 
-    //std::cout << "advisorBot> " << "Showing details for: " << userInput << std::endl << std::endl;
-
-    //std::vector<std::string> helpInput = CSVReader::tokenise(userInput, ' ');
-    //
-    //for (std::string command : helpInput)
-    //    std::cout << "advisorBot> " << "Your inputs: " << command << std::endl;
-
-    //for (const auto& command : helpCommand)
-    //    std::cout << "advisorBot> " << "You entered help Commands: " << command << std::endl;
-
-    //std::cout << "advisorBot> " << "The input: " << helpInput[0] << std::endl;
+    std::cout << std::endl;
 
     if (userInput == "help")
     {
@@ -172,7 +162,7 @@ void MerkelMain::processUserInput(std::string userInput)
     else if (userInput == "help avg")
     {
         std::cout << "advisorBot> " << "You requested help with the 'avg' command." << std::endl;
-        std::cout << "advisorBot> " << "The <avg> command computes the average bid or ask for the specified product over the specified number of time periods." << std::endl;
+        std::cout << "advisorBot> " << "The <avg> command computes the average bid or ask for the specified product for the specified number of time periods." << std::endl;
         std::cout << "advisorBot> " << "Additional arguments required are <int> of time periods, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
         std::cout << "advisorBot> " << "An example output is: 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
     }
@@ -180,9 +170,9 @@ void MerkelMain::processUserInput(std::string userInput)
     else if (userInput == "help predict")
     {
         std::cout << "advisorBot> " << "You requested help with the 'predict' command." << std::endl;
-        std::cout << "advisorBot> " << "The <predict> command will predict the maximum or minimum bid or ask for the specific product specified in the next time period." << std::endl;
+        std::cout << "advisorBot> " << "The <predict> command will predict the maximum or minimum bid or ask for the specified product in the next time period." << std::endl;
         std::cout << "advisorBot> " << "Additional arguments required are <min> or <max>, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
-        std::cout << "advisorBot> " << "An example output is: 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The predicted maximum ETH/BTC ask price in the next time period is 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "help time")
@@ -196,14 +186,14 @@ void MerkelMain::processUserInput(std::string userInput)
     {
         std::cout << "advisorBot> " << "You requested help with the 'step' command." << std::endl;
         std::cout << "advisorBot> " << "The <step> command moves trading to the next time period." << std::endl;
-        std::cout << "advisorBot> " << "An example output is: ." << std::endl << std::endl;
+        std::cout << "advisorBot> " << "The output is the timestamp for the next time period." << std::endl << std::endl;
     }
 
-    else if (userInput == "help my own")
+    else if (userInput == "help stdev")
     {
-        std::cout << "advisorBot> " << "You requested help with the 'my own' command." << std::endl;
-        std::cout << "advisorBot> " << "The <my own> ." << std::endl;
-        std::cout << "advisorBot> " << "An example output is: " << std::endl << std::endl;
+        std::cout << "advisorBot> " << "You requested help with the 'stdev' command." << std::endl;
+        std::cout << "advisorBot> " << "The <stdev> command will calculate the stadard deviation for the product specified for the specific number of time periods." << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The standart deviation for ETH/BTC over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "prod")
@@ -333,8 +323,6 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "Timestamp: " << v << std::endl;
         }
 
-        std::cout << "Product: " << avgCommand[1] << std::endl;
-
         for (std::string const& p : orderBook.getKnownProducts())
         {
             if (p == avgCommand[1])
@@ -383,12 +371,108 @@ void MerkelMain::processUserInput(std::string userInput)
                 } // end else
             } // end if
         } // end for
-    }
+    } // end else if
 
     else if (userInput == "predict")
     {
-        std::cout << "advisorBot> " << "You r" << std::endl << std::endl;
-    }
+        std::string predictInput;
+        std::vector<std::string> predictCommand;
+        std::vector<std::string> timestamps;
+        std::vector<std::string> predicttimestamps;
+        int i;
+        ptrdiff_t pos;
+        std::cout << "advisorBot> " << "Please enter a <predict> command in the following format: " << std::endl;
+        std::cout << "advisorBot> " << "predict max ETH/BTC bid" << std::endl;
+        std::getline(std::cin, predictInput);
+        std::cout << "advisorBot> " << "You entered: " << predictInput << std::endl << std::endl;
+        predictCommand = CSVReader::tokenise(predictInput, ' ');
+        for (const auto& command : predictCommand)
+            std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+        if (predictCommand[0] != "predict")
+        {
+            std::cout << "advisorBot> " << "Please enter a valid <predict> command!" << std::endl;
+        }
+        std::cout << "The current time is: " << currentTime << std::endl;
+        timestamps = orderBook.getTimestamps();
+
+        std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+        pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
+        std::cout << "Index = " << pos << std::endl;
+        std::cout << std::endl;
+
+        if (pos > 5)
+        {
+            for (i = (pos - 5); i <= pos; i++)
+            {
+                std::cout << "i: " << i << std::endl;
+                predicttimestamps.push_back(timestamps[i]);
+            }
+        }
+        else
+        {
+            for (i = 0; i <= pos; i++)
+            {
+                std::cout << "i: " << i << std::endl;
+                predicttimestamps.push_back(timestamps[i]);
+            }
+        }
+
+        std::cout << "Length: " << predicttimestamps.size() << std::endl;
+
+        for (std::string v : predicttimestamps)
+        {
+            std::cout << "Timestamp: " << v << std::endl;
+        }
+
+        //for (std::string const& p : orderBook.getKnownProducts())
+        //{
+        //    if (p == predictCommand[1])
+        //    {
+        //        std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+        //        std::cout << "TRADE: " << predictCommand[2] << std::endl << std::endl;
+
+        //        if (predictCommand[2] == "bid")
+        //        {
+        //            int bidCount = 0;
+        //            double sum = 0;
+        //            double bidpredict = 0;
+        //            for (std::string const& t : predicttimestamps)
+        //            {
+        //                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
+
+        //                std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+        //                std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+        //                double getpredict = OrderBook::getPredict(entries);
+        //                std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getpredict << std::endl << std::endl;
+        //                bidCount += 1;
+        //                sum += getpredict;
+        //                bidpredict = sum / bidCount;
+        //            }
+        //            std::cout << "advisorBot> " << "The overall average bid for " << predicttimestamps.size() << " timestamp periods" << " is: " << bidpredict << std::endl << std::endl;
+        //        }
+        //        else
+        //        {
+        //            int askCount = 0;
+        //            double sum = 0;
+        //            double askpredict = 0;
+        //            for (std::string const& t : predicttimestamps)
+        //            {
+        //                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
+
+        //                std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+        //                std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+        //                double getpredict = OrderBook::getPredict(entries);
+        //                std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getpredict << std::endl << std::endl;
+        //                askCount += 1;
+        //                sum += getpredict;
+        //                askpredict = sum / askCount;
+        //            }
+        //            std::cout << "advisorBot> " << "The overall average ask for " << predicttimestamps.size() << " timestamp periods" << " is: " << askpredict << std::endl << std::endl;
+        //        } // end else
+        //    } // end if
+        //} // end for
+    } // end else if
 
     else if (userInput == "time")
     {
@@ -566,8 +650,6 @@ void MerkelMain::processUserInput(std::string userInput)
                 std::cout << "Timestamp: " << v << std::endl;
             }
 
-            std::cout << "Product: " << avgCommand[1] << std::endl;
-
             for (std::string const& p : orderBook.getKnownProducts())
             {
                 if (p == avgCommand[1])
@@ -624,7 +706,6 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "advisorBot> " << "Please enter a <predict> command in the following format: " << std::endl;
             std::cout << "advisorBot> " << "predict max ETH/BTC bid" << std::endl;
             std::getline(std::cin, predictInput);
-            std::transform(predictInput.begin(), predictInput.end(), predictInput.begin(), [](unsigned char c) {return std::tolower(c); });
             std::cout << "advisorBot> " << "You entered: " << predictInput << std::endl << std::endl;
             predictCommand = CSVReader::tokenise(predictInput, ' ');
             for (const auto& command : predictCommand)

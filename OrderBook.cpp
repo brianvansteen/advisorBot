@@ -82,6 +82,18 @@ double OrderBook::getHighPrice(std::vector<OrderBookEntry>& orders)
 	return max;
 };
 
+
+double OrderBook::getLowPrice(std::vector<OrderBookEntry>& orders)
+{
+	double min = orders[0].price;
+	for (OrderBookEntry& e : orders)
+	{
+		if (e.price < min)min = e.price;
+	}
+	return min;
+}
+
+
 double OrderBook::getAvg(std::vector<OrderBookEntry>& orders)
 {
 	double min = orders[0].price;
@@ -98,14 +110,21 @@ double OrderBook::getAvg(std::vector<OrderBookEntry>& orders)
 	return avg;
 }
 
-double OrderBook::getLowPrice(std::vector<OrderBookEntry>& orders)
+
+double OrderBook::getPredict(std::vector<OrderBookEntry>& orders)
 {
 	double min = orders[0].price;
+	int count = 0;
+	double sum = 0;
+	double avg = 0;
 	for (OrderBookEntry& e : orders)
 	{
-		if (e.price < min)min = e.price;
+		count += 1;
+		sum += e.price;
 	}
-	return min;
+	avg = sum / count;
+	std::cout << "advisorBot> " << "Count of orders: " << count << " Sum of orders: " << sum << std::endl;
+	return avg;
 }
 
 
