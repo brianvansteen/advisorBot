@@ -5,7 +5,6 @@
 #include "orderBookEntry.h"
 #include "OrderBook.h"
 #include "Wallet.h"
-#include "advisorBot.h"
 
 class MerkelMain // class definition
 {

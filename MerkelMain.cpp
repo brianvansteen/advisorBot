@@ -7,7 +7,6 @@
 #include <cctype>
 #include "orderBookEntry.h"
 #include "csvReader.h"
-#include "advisorBot.h"
 
 MerkelMain::MerkelMain() // constructor is for creating instance of object and ensure it is ready to be used
 {
@@ -31,32 +30,30 @@ void MerkelMain::init() // start the object running
 }
 
 
-/* print the user menu */
+/* print the main user menu */
 void MerkelMain::printMenu()
 {
     std::cout << "=======================================" << std::endl << std::endl;
 
-    std::cout << "**** MAIN MENU ****"<<std::endl << std::endl;
+    std::cout << "**** MAIN MENU ****" << std::endl << std::endl;
     
-    // print help
-    std::cout << "Help:   print all help commands" << std::endl;
+    // list of all help commands
+    std::cout << "Help:             print all help commands" << std::endl << std::endl;
 
-    // print help cmd
-    std::cout << "Help <cmd>:   print 'help <cmd>' to get specific help for the command" << std::endl;
+    // help <cmd> details
+    std::cout << "Help <cmd>:       print 'help <cmd>' to get specific help for the command" << std::endl << std::endl;
     
-    std::cout << "Enter commands:   to execute individual commands" << std::endl;
+    // to enter individual commands
+    std::cout << "Enter commands:   to execute individual commands" << std::endl << std::endl;
     
-    // exit
-    std::cout << "Exit:     to exit the trading platform!" << std::endl;
-    
+    // to exit the Advisorbot program
+    std::cout << "Exit:             to exit the trading platform!" << std::endl << std::endl;
+
     std::cout << "=======================================" << std::endl << std::endl;
-
 }
 
 
-
-/* print the user menu */
-void MerkelMain::printCommandMenu()
+void MerkelMain::printCommandMenu() // the menu for the commands
 {
     std::cout << "=======================================" << std::endl << std::endl;
 
@@ -76,15 +73,16 @@ void MerkelMain::printCommandMenu()
     std::cout << "9" << "    - Exit the commands menu" << std::endl << std::endl;
 
     std::cout << "=======================================" << std::endl << std::endl;
-
 }
 
-void MerkelMain::printHelp() // menu 1
+
+void MerkelMain::printHelp() // the help menu
 {
+    std::cout << "=======================================" << std::endl << std::endl;
+    std::cout << "**** HELP ****" << std::endl << std::endl;
     std::cout << "advisorBot> " << "Advisorbot is a trading platform." << std::endl << std::endl;
     std::cout << "advisorBot> " << "The help commands are as follows." << std::endl<<std::endl;
-    std::cout << "advisorBot> " << "If you want help for a specific command, enter as follow:" << std::endl;
-    std::cout << "  help <cmd>" << std::endl <<std::endl;
+    std::cout << "advisorBot> " << "If you want help for a specific command, enter as follow:   help <cmd>" << std::endl << std::endl;
     std::cout << "- prod:" << std::endl;
     std::cout <<"   print a list of currency trading products." << std::endl<<std::endl;
     std::cout << "- min:"<<std::endl;
@@ -105,42 +103,42 @@ void MerkelMain::printHelp() // menu 1
 }
 
 
-std::string MerkelMain::userInput()
+std::string MerkelMain::userInput() // get user input form the help menu options
 {
     std::string userSelection = " ";
     std::cout << "advisorBot> " << "Make a selection from the options:" << std::endl << std::endl;
         std::getline(std::cin, userSelection);
-        std::transform(userSelection.begin(), userSelection.end(), userSelection.begin(),[](unsigned char c) {return std::tolower(c); });
-        std::cout << "You selected: " << userSelection << std::endl <<std::endl;
-        return userSelection;
+        std::transform(userSelection.begin(), userSelection.end(), userSelection.begin(),[](unsigned char c) {return std::tolower(c); }); // convert all characters to lower case
+        std::cout << "advisorBot " << "You selected: " << userSelection << std::endl <<std::endl;
+        return userSelection; // for use in processUserInput
 }
 
 
 void MerkelMain::processUserInput(std::string userInput)
 {
-    std::vector<std::string> helpCommand;
+    std::vector<std::string> helpCommand; // enter user command to parse it
     try
     {
-        helpCommand = CSVReader::tokenise(userInput, ' ');
+        helpCommand = CSVReader::tokenise(userInput, ' '); // attempt to separate user command with ' '
         for (const auto& command : helpCommand)
-            std::cout << "You entered: " << command << std::endl;
+            std::cout << "advisorBot> " << "You entered: " << command << std::endl; // print user command to confirm accuracy
     }
     catch (const std::exception& e)
     {
         std::cout << "advisorBot> " << "Please enter a valid input, not " << userInput << "!" << std::endl;
     }
 
-    std::cout << "advisorBot> " << "Showing details for: " << userInput << std::endl << std::endl;
+    //std::cout << "advisorBot> " << "Showing details for: " << userInput << std::endl << std::endl;
 
-    std::vector<std::string> helpInput = CSVReader::tokenise(userInput, ' ');
-    
-    for (std::string command : helpInput)
-        std::cout << "advisorBot> " << "Your inputs: " << command << std::endl;
+    //std::vector<std::string> helpInput = CSVReader::tokenise(userInput, ' ');
+    //
+    //for (std::string command : helpInput)
+    //    std::cout << "advisorBot> " << "Your inputs: " << command << std::endl;
 
-    for (const auto& command : helpCommand)
-        std::cout << "advisorBot> " << "You entered help Commands: " << command << std::endl;
+    //for (const auto& command : helpCommand)
+    //    std::cout << "advisorBot> " << "You entered help Commands: " << command << std::endl;
 
-    std::cout << "advisorBot> " << "The input: " << helpInput[0] << std::endl;
+    //std::cout << "advisorBot> " << "The input: " << helpInput[0] << std::endl;
 
     if (userInput == "help")
     {
@@ -151,8 +149,8 @@ void MerkelMain::processUserInput(std::string userInput)
     else if (userInput == "help prod")
     {
         std::cout << "advisorBot> " << "You requested help with the 'prod' command." << std::endl;
-        std::cout << "advisorBot> " << "The <prod> command lists all available products, and no additional arguements are neededhelp." << std::endl;
-        std::cout << "advisorBot> " << "For example, ETH/BTC, DOGE/BTC, etc." << std::endl << std::endl;
+        std::cout << "advisorBot> " << "The <prod> command lists all available products, and no additional arguements are needed." << std::endl;
+        std::cout << "advisorBot> " << "An example output is: ETH/BTC, DOGE/BTC, etc." << std::endl << std::endl;
     }
 
     else if (userInput == "help min")
@@ -160,7 +158,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "You requested help with the 'min' command." << std::endl;
         std::cout << "advisorBot> " << "The <min> command finds the minimum bid or ask for a specified product in the current time period." << std::endl;
         std::cout << "advisorBot> " << "Arguments required are <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
-        std::cout << "advisorBot> " << "For example, 'The min ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The min ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "help max")
@@ -168,7 +166,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "You requested help with the 'max' command." << std::endl;
         std::cout << "advisorBot> " << "The <max> command finds the maximum bid or ask for a specified product in the current time period." << std::endl;
         std::cout << "advisorBot> " << "Arguments required are <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
-        std::cout << "advisorBot> " << "For example, 'The max ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The max ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "help avg")
@@ -176,7 +174,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "You requested help with the 'avg' command." << std::endl;
         std::cout << "advisorBot> " << "The <avg> command computes the average bid or ask for the specified product over the specified number of time periods." << std::endl;
         std::cout << "advisorBot> " << "Additional arguments required are <int> of time periods, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
-        std::cout << "advisorBot> " << "For example, 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "help predict")
@@ -184,28 +182,28 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "You requested help with the 'predict' command." << std::endl;
         std::cout << "advisorBot> " << "The <predict> command will predict the maximum or minimum bid or ask for the specific product specified in the next time period." << std::endl;
         std::cout << "advisorBot> " << "Additional arguments required are <min> or <max>, <bid> or <ask> and the product, such as ETH/BTC." << std::endl;
-        std::cout << "advisorBot> " << "For example, 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
     }
 
     else if (userInput == "help time")
     {
         std::cout << "advisorBot> " << "You requested help with the 'time' command." << std::endl;
         std::cout << "advisorBot> " << "The <time> command lists the current time period in the dataset." << std::endl;
-        std::cout << "advisorBot> " << "For example, 2020/03/17 17:01:24." << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: 2020/03/17 17:01:24." << std::endl << std::endl;
     }
 
     else if (userInput == "help step")
     {
         std::cout << "advisorBot> " << "You requested help with the 'step' command." << std::endl;
         std::cout << "advisorBot> " << "The <step> command moves trading to the next time period." << std::endl;
-        std::cout << "advisorBot> " << "For example, ." << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: ." << std::endl << std::endl;
     }
 
     else if (userInput == "help my own")
     {
         std::cout << "advisorBot> " << "You requested help with the 'my own' command." << std::endl;
         std::cout << "advisorBot> " << "The <my own> ." << std::endl;
-        std::cout << "advisorBot> " << "For example, " << std::endl << std::endl;
+        std::cout << "advisorBot> " << "An example output is: " << std::endl << std::endl;
     }
 
     else if (userInput == "prod")
