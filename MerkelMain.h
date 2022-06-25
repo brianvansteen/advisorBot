@@ -23,6 +23,7 @@ private:
 
     std::vector<std::string> helpCommand;
     std::vector<std::string> helpInput;
+    std::vector<double> weightings;
 
     void processUserInput(std::string userSelection);
 
@@ -30,7 +31,7 @@ private:
 
     int exitSession();
 
-    OrderBook orderBook{ "20200601.csv" };
+    OrderBook orderBook{ "20200317.csv" };
 
     Wallet wallet;
 

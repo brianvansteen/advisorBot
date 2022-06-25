@@ -13,7 +13,7 @@ CSVReader::CSVReader() // constructor
 std::vector<OrderBookEntry> CSVReader::readCSV(std::string csvFilename) // function implementation
 {
 	std::vector<OrderBookEntry> entries; // return vector of order book entries
-	std::ifstream csvFile{ "20200601.csv" }; // instantiates ifstream object; default behaviour is to open file for reading
+	std::ifstream csvFile{ "20200317.csv" }; // instantiates ifstream object; default behaviour is to open file for reading
 	std::string line;
 	if (csvFile.is_open())
 	{
