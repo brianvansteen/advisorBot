@@ -302,7 +302,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "The current time is: " << currentTime << std::endl;
         timestamps = orderBook.getTimestamps();
 
-        std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+        // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
         pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
         std::cout << "Index = " << pos << std::endl;
         std::cout << std::endl;
@@ -315,12 +315,12 @@ void MerkelMain::processUserInput(std::string userInput)
             avgtimestamps.push_back(timestamps[i]);
         }
 
-        std::cout << "Length: " << avgtimestamps.size() << std::endl;
+        // std::cout << "Length: " << avgtimestamps.size() << std::endl;
 
-        for (std::string v : avgtimestamps)
-        {
-            std::cout << "Timestamp: " << v << std::endl;
-        }
+        //for (std::string v : avgtimestamps)
+        //{
+        //    std::cout << "Timestamp: " << v << std::endl;
+        //}
 
         for (std::string const& p : orderBook.getKnownProducts())
         {
@@ -328,7 +328,7 @@ void MerkelMain::processUserInput(std::string userInput)
             {
                 std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
-                std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+                // std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
                     
                 if (avgCommand[2] == "bid")
                 {
@@ -401,7 +401,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "The current time is: " << currentTime << std::endl;
         timestamps = orderBook.getTimestamps();
 
-        std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+        // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
         pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
         std::cout << "Index = " << pos << std::endl;
         std::cout << std::endl;
@@ -419,7 +419,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
         }
 
-        std::cout << "Length: " << predicttimestamps.size() << std::endl;
+        // std::cout << "Length: " << predicttimestamps.size() << std::endl;
 
         for (std::string v : predicttimestamps)
         {
@@ -432,7 +432,7 @@ void MerkelMain::processUserInput(std::string userInput)
             {
                 std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
-                std::cout << "TRADE: " << predictCommand[3] << std::endl << std::endl;
+                // std::cout << "TRADE: " << predictCommand[3] << std::endl << std::endl;
 
                 if (predictCommand[3] == "bid")
                 {
@@ -664,7 +664,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "The current time is: " << currentTime << std::endl;
             timestamps = orderBook.getTimestamps();
             
-            std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+            // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
             pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
             std::cout << "Index = " << pos << std::endl;
             std::cout << std::endl;
@@ -678,7 +678,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 avgtimestamps.push_back(timestamps[i]);
             }
 
-            std::cout << "Length: " << avgtimestamps.size() << std::endl;
+            // std::cout << "Length: " << avgtimestamps.size() << std::endl;
             
             for (std::string v : avgtimestamps)
             {
@@ -691,7 +691,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
                     
-                    std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+                    // std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
                     
                     if (avgCommand[2] == "bid")
                     {
@@ -752,7 +752,7 @@ void MerkelMain::processUserInput(std::string userInput)
             std::cout << "The current time is: " << currentTime << std::endl;
             timestamps = orderBook.getTimestamps();
 
-            std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+            // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
             pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
             std::cout << "Index = " << pos << std::endl;
             std::cout << std::endl;
@@ -770,12 +770,12 @@ void MerkelMain::processUserInput(std::string userInput)
                 std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
             }
 
-            std::cout << "Length: " << predicttimestamps.size() << std::endl;
+            // std::cout << "Length: " << predicttimestamps.size() << std::endl;
 
-            for (std::string v : predicttimestamps)
-            {
-                std::cout << "Timestamp: " << v << std::endl;
-            }
+            //for (std::string v : predicttimestamps)
+            //{
+            //    std::cout << "Timestamp: " << v << std::endl;
+            //}
 
             for (std::string const& p : orderBook.getKnownProducts())
             {
@@ -783,7 +783,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
-                    std::cout << "TRADE: " << predictCommand[3] << std::endl << std::endl;
+                    // std::cout << "TRADE: " << predictCommand[3] << std::endl << std::endl;
 
                     if (predictCommand[3] == "bid")
                     {
