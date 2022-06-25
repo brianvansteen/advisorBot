@@ -370,7 +370,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 } // end else
             } // end if
         } // end for
-    } // end else if
+    } // end else if 'avg'
 
     else if (userInput == "predict")
     {
@@ -414,17 +414,9 @@ void MerkelMain::processUserInput(std::string userInput)
                 predicttimestamps.push_back(timestamps[i]);
             }
         }
-        else if (pos == 0)
-        {
-            std::cout << "Predict will only work when there are at least two timestamps!"<< std::endl;
-        }
         else
         {
-            for (i = 0; i <= pos; i++)
-            {
-                std::cout << "i: " << i << std::endl;
-                predicttimestamps.push_back(timestamps[i]);
-            }
+            std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
         }
 
         std::cout << "Length: " << predicttimestamps.size() << std::endl;
@@ -459,7 +451,6 @@ void MerkelMain::processUserInput(std::string userInput)
                             }
                             else
                             {
-                                std::vector<double> getmaxpredict;
                                 getpredict = OrderBook::getHighPrice(entries);
                                 getmaxpredict.push_back(getpredict);
                                 std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << getpredict << std::endl;
@@ -468,25 +459,17 @@ void MerkelMain::processUserInput(std::string userInput)
                     if (getminpredict.size() > 0)
                     {
                         double minPredict = 0;
-                        //for (double const& m : getminpredict)
-                        //{
-                        //    std::cout << m << std::endl;
-                        //}
                         minPredict = (getminpredict[0] * 0.4) + (getminpredict[1] * 0.3) + (getminpredict[2] * 0.15) + (getminpredict[3] * 0.1) + (getminpredict[4] * 0.05);
                         std::cout << "advisorBot> " << "The predicted minimum bid for the next time period is: " << minPredict << std::endl << std::endl;
                     }
                     else if (getmaxpredict.size() > 0)
                     {
-                        for (double const& m : getmaxpredict)
-                        {
-                            std::cout << m << std::endl;
-                        }
                         double maxPredict = 0;
                         maxPredict = (getmaxpredict[0] * 0.4) + (getmaxpredict[1] * 0.3) + (getmaxpredict[2] * 0.15) + (getmaxpredict[3] * 0.1) + (getmaxpredict[4] * 0.05);
                         std::cout << "advisorBot> " << "The predicted maximum bid for the next time period is: " << maxPredict << std::endl << std::endl;
                     }
                 } // end if
-                else
+                else // ask trades
                 {
                     double getpredict = 0;
                     std::vector<double> getminpredict;
@@ -503,7 +486,6 @@ void MerkelMain::processUserInput(std::string userInput)
                         }
                         else
                         {
-                            std::vector<double> getmaxpredict;
                             getpredict = OrderBook::getHighPrice(entries);
                             getmaxpredict.push_back(getpredict);
                             std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << getpredict << std::endl;
@@ -512,19 +494,11 @@ void MerkelMain::processUserInput(std::string userInput)
                     if (getminpredict.size() > 0)
                     {
                         double minPredict = 0;
-                        //for (double const& m : getminpredict)
-                        //{
-                        //    std::cout << m << std::endl;
-                        //}
                         minPredict = (getminpredict[0] * 0.4) + (getminpredict[1] * 0.3) + (getminpredict[2] * 0.15) + (getminpredict[3] * 0.1) + (getminpredict[4] * 0.05);
                         std::cout << "advisorBot> " << "The predicted minimum ask for the next time period is: " << minPredict << std::endl << std::endl;
                     }
                     else if (getmaxpredict.size() > 0)
                     {
-                        for (double const& m : getmaxpredict)
-                        {
-                            std::cout << m << std::endl;
-                        }
                         double maxPredict = 0;
                         maxPredict = (getmaxpredict[0] * 0.4) + (getmaxpredict[1] * 0.3) + (getmaxpredict[2] * 0.15) + (getmaxpredict[3] * 0.1) + (getmaxpredict[4] * 0.05);
                         std::cout << "advisorBot> " << "The predicted maximum ask for the next time period is: " << maxPredict << std::endl << std::endl;
@@ -532,7 +506,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 } // end else
             } // end if
         } // end for
-    } // end else if
+    } // end else if 'predict'
 
     else if (userInput == "time")
     {
@@ -584,6 +558,7 @@ void MerkelMain::processUserInput(std::string userInput)
         ptrdiff_t pos;
         std::string predictInput;
         std::vector<std::string> predictCommand;
+        std::vector<std::string> predicttimestamps;
         std::string myInput;
         std::vector<std::string> myCommand;
 
@@ -774,6 +749,115 @@ void MerkelMain::processUserInput(std::string userInput)
             {
                 std::cout << "advisorBot> " << "Please enter a valid <predict> command!" << std::endl;
             }
+            std::cout << "The current time is: " << currentTime << std::endl;
+            timestamps = orderBook.getTimestamps();
+
+            std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
+            pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
+            std::cout << "Index = " << pos << std::endl;
+            std::cout << std::endl;
+
+            if (pos > 5)
+            {
+                for (i = (pos - 4); i <= pos; i++)
+                {
+                    std::cout << "i: " << i << std::endl;
+                    predicttimestamps.push_back(timestamps[i]);
+                }
+            }
+            else
+            {
+                std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
+            }
+
+            std::cout << "Length: " << predicttimestamps.size() << std::endl;
+
+            for (std::string v : predicttimestamps)
+            {
+                std::cout << "Timestamp: " << v << std::endl;
+            }
+
+            for (std::string const& p : orderBook.getKnownProducts())
+            {
+                if (p == predictCommand[2])
+                {
+                    std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+                    std::cout << "TRADE: " << predictCommand[3] << std::endl << std::endl;
+
+                    if (predictCommand[3] == "bid")
+                    {
+                        double getpredict = 0;
+                        std::vector<double> getminpredict;
+                        std::vector<double> getmaxpredict;
+                        std::vector<double> weightings{ 0.4, 0.3, 0.15, 0.1, 0.05 };
+                        for (std::string const& t : predicttimestamps)
+                        {
+                            std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
+                            if (predictCommand[1] == "min")
+                            {
+                                getpredict = OrderBook::getLowPrice(entries);
+                                getminpredict.push_back(getpredict);
+                                std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << getpredict << std::endl;
+                            }
+                            else
+                            {
+                                getpredict = OrderBook::getHighPrice(entries);
+                                getmaxpredict.push_back(getpredict);
+                                std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << getpredict << std::endl;
+                            }
+                        } // end for
+                        if (getminpredict.size() > 0)
+                        {
+                            double minPredict = 0;
+                            minPredict = (getminpredict[0] * 0.4) + (getminpredict[1] * 0.3) + (getminpredict[2] * 0.15) + (getminpredict[3] * 0.1) + (getminpredict[4] * 0.05);
+                            std::cout << "advisorBot> " << "The predicted minimum bid for the next time period is: " << minPredict << std::endl << std::endl;
+                        }
+                        else if (getmaxpredict.size() > 0)
+                        {
+                            double maxPredict = 0;
+                            maxPredict = (getmaxpredict[0] * 0.4) + (getmaxpredict[1] * 0.3) + (getmaxpredict[2] * 0.15) + (getmaxpredict[3] * 0.1) + (getmaxpredict[4] * 0.05);
+                            std::cout << "advisorBot> " << "The predicted maximum bid for the next time period is: " << maxPredict << std::endl << std::endl;
+                        }
+                    } // end if
+                    else // ask trades
+                    {
+                        double getpredict = 0;
+                        std::vector<double> getminpredict;
+                        std::vector<double> getmaxpredict;
+                        std::vector<double> weightings{ 0.4, 0.3, 0.15, 0.1, 0.05 };
+                        for (std::string const& t : predicttimestamps)
+                        {
+                            std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
+                            if (predictCommand[1] == "min")
+                            {
+                                getpredict = OrderBook::getLowPrice(entries);
+                                getminpredict.push_back(getpredict);
+                                std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << getpredict << std::endl;
+                            }
+                            else
+                            {
+                                getpredict = OrderBook::getHighPrice(entries);
+                                getmaxpredict.push_back(getpredict);
+                                std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << getpredict << std::endl;
+                            }
+                        } // end for
+                        if (getminpredict.size() > 0)
+                        {
+                            double minPredict = 0;
+                            minPredict = (getminpredict[0] * 0.4) + (getminpredict[1] * 0.3) + (getminpredict[2] * 0.15) + (getminpredict[3] * 0.1) + (getminpredict[4] * 0.05);
+                            std::cout << "advisorBot> " << "The predicted minimum ask for the next time period is: " << minPredict << std::endl << std::endl;
+                        }
+                        else if (getmaxpredict.size() > 0)
+                        {
+                            double maxPredict = 0;
+                            maxPredict = (getmaxpredict[0] * 0.4) + (getmaxpredict[1] * 0.3) + (getmaxpredict[2] * 0.15) + (getmaxpredict[3] * 0.1) + (getmaxpredict[4] * 0.05);
+                            std::cout << "advisorBot> " << "The predicted maximum ask for the next time period is: " << maxPredict << std::endl << std::endl;
+                        } // end if
+                    } // end else
+                } // end if
+            } // end for
+
             break;
 
         case 6:
