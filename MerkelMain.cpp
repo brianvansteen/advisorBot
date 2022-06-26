@@ -114,7 +114,7 @@ std::string MerkelMain::userInput() // get user input form the help menu options
 }
 
 
-void MerkelMain::processUserInput(std::string userInput)
+void MerkelMain::processUserInput(std::string userInput) // impelement the user inputs
 {
     std::vector<std::string> helpCommand; // enter user command to parse it
     try
@@ -123,7 +123,7 @@ void MerkelMain::processUserInput(std::string userInput)
         for (const auto& command : helpCommand)
             std::cout << "advisorBot> " << "You entered: " << command << std::endl; // print user command to confirm accuracy
     }
-    catch (const std::exception& e)
+    catch (const std::exception& e) // if not able to separate user command, ask to re-enter
     {
         std::cout << "advisorBot> " << "Please enter a valid input, not " << userInput << "!" << std::endl;
     }
@@ -136,14 +136,14 @@ void MerkelMain::processUserInput(std::string userInput)
         MerkelMain::printHelp();
     }
 
-    else if (userInput == "help prod")
+    else if (userInput == "help prod") // print details on <prod> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'prod' command." << std::endl;
         std::cout << "advisorBot> " << "The <prod> command lists all available products, and no additional arguements are needed." << std::endl;
         std::cout << "advisorBot> " << "An example output is: ETH/BTC, DOGE/BTC, etc." << std::endl << std::endl;
     }
 
-    else if (userInput == "help min")
+    else if (userInput == "help min") // print details on <min> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'min' command." << std::endl;
         std::cout << "advisorBot> " << "The <min> command finds the minimum bid or ask for a specified product in the current time period." << std::endl;
@@ -151,7 +151,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "An example output is: 'The min ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
     }
 
-    else if (userInput == "help max")
+    else if (userInput == "help max") // print details on <max> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'max' command." << std::endl;
         std::cout << "advisorBot> " << "The <max> command finds the maximum bid or ask for a specified product in the current time period." << std::endl;
@@ -159,7 +159,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "An example output is: 'The max ask for ETH/BTC is 1.0.'" << std::endl << std::endl;
     }
 
-    else if (userInput == "help avg")
+    else if (userInput == "help avg") // print details on <avg> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'avg' command." << std::endl;
         std::cout << "advisorBot> " << "The <avg> command computes the average bid or ask for the specified product for the specified number of time periods." << std::endl;
@@ -167,7 +167,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "An example output is: 'The average ETH/BTC ask price over the last 10 timesteps was 1.0.'" << std::endl << std::endl;
     }
 
-    else if (userInput == "help predict")
+    else if (userInput == "help predict") // print details on <predict> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'predict' command." << std::endl;
         std::cout << "advisorBot> " << "The <predict> command will predict the maximum or minimum bid or ask for the specified product in the next time period." << std::endl;
@@ -175,21 +175,21 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "An example output is: 'The predicted maximum ETH/BTC ask price in the next time period is 1.0.'" << std::endl << std::endl;
     }
 
-    else if (userInput == "help time")
+    else if (userInput == "help time") // print details on <time> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'time' command." << std::endl;
         std::cout << "advisorBot> " << "The <time> command lists the current time period in the dataset." << std::endl;
         std::cout << "advisorBot> " << "An example output is: 2020/03/17 17:01:24." << std::endl << std::endl;
     }
 
-    else if (userInput == "help step")
+    else if (userInput == "help step") // print details on <step> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'step' command." << std::endl;
         std::cout << "advisorBot> " << "The <step> command moves trading to the next time period." << std::endl;
         std::cout << "advisorBot> " << "The output is the timestamp for the next time period." << std::endl << std::endl;
     }
 
-    else if (userInput == "help stdev")
+    else if (userInput == "help stdev") // print details on <stdev> command
     {
         std::cout << "advisorBot> " << "You requested help with the 'stdev' command." << std::endl;
         std::cout << "advisorBot> " << "The <stdev> command will calculate the stadard deviation for the product specified for the specific number of time periods." << std::endl;
@@ -213,7 +213,7 @@ void MerkelMain::processUserInput(std::string userInput)
         std::cout << "advisorBot> " << "min ETH/BTC ask" << std::endl;
         std::getline(std::cin, minInput);
         std::cout << "You entered: " << minInput << std::endl << std::endl;
-        minCommand = CSVReader::tokenise(minInput, ' ');
+        minCommand = CSVReader::tokenise(minInput, ' '); // separate user command with ' '
         for (const auto& command : minCommand)
             std::cout << "advisorBot> " << "You entered: " << command << std::endl;
         if (minCommand[0] != "min")
@@ -223,9 +223,9 @@ void MerkelMain::processUserInput(std::string userInput)
 
         for (std::string const& p : orderBook.getKnownProducts())
         {
-            if (p == minCommand[1])
+            if (p == minCommand[1]) // user enter product value
             {
-                std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
+                std::cout << "advisorBot> " << "Product: " << p << std::endl; // which product
 
                 if (minCommand[2] == "ask")
                 {
@@ -240,7 +240,11 @@ void MerkelMain::processUserInput(std::string userInput)
                     std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                 }
             }
-        }
+            else
+            {
+                std::cout << "advisorBot> " << "Please enter a valid product, not: " << minCommand[1] << std::endl;
+            }
+        } // end for
     }
 
     else if (userInput == "max")
@@ -260,7 +264,7 @@ void MerkelMain::processUserInput(std::string userInput)
         }
         for (std::string const& p : orderBook.getKnownProducts())
         {
-            if (p == maxCommand[1])
+            if (p == maxCommand[1]) // user enter product value
             {
                 std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
 
@@ -277,7 +281,11 @@ void MerkelMain::processUserInput(std::string userInput)
                     std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                 }
             }
-        }
+            else
+            {
+                std::cout << "advisorBot> " << "Please enter a valid product, not: " << maxCommand[1] << std::endl;
+            }
+        } // end for
     }
 
     else if (userInput == "avg")
@@ -304,7 +312,7 @@ void MerkelMain::processUserInput(std::string userInput)
 
         // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
         pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
-        std::cout << "Index = " << pos << std::endl;
+        std::cout << "Index of current time = " << pos << std::endl;
         std::cout << std::endl;
 
         std::cout << avgCommand[3] << std::endl;
@@ -315,16 +323,16 @@ void MerkelMain::processUserInput(std::string userInput)
             avgtimestamps.push_back(timestamps[i]);
         }
 
-        // std::cout << "Length: " << avgtimestamps.size() << std::endl;
+         std::cout << "Length: " << avgtimestamps.size() << std::endl;
 
-        //for (std::string v : avgtimestamps)
-        //{
-        //    std::cout << "Timestamp: " << v << std::endl;
-        //}
+        for (std::string v : avgtimestamps)
+        {
+            std::cout << "Timestamp: " << v << std::endl;
+        }
 
         for (std::string const& p : orderBook.getKnownProducts())
         {
-            if (p == avgCommand[1])
+            if (p == avgCommand[1]) // user enter product value
             {
                 std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
@@ -369,6 +377,10 @@ void MerkelMain::processUserInput(std::string userInput)
                     std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
                 } // end else
             } // end if
+            else
+            {
+                std::cout << "advisorBot> " << "Please enter a valid product, not: " << avgCommand[2] << std::endl;
+            }
         } // end for
     } // end else if 'avg'
 
@@ -403,14 +415,14 @@ void MerkelMain::processUserInput(std::string userInput)
 
         // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
         pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
-        std::cout << "Index = " << pos << std::endl;
+        std::cout << "Index of curren time = " << pos << std::endl;
         std::cout << std::endl;
 
         if (pos > 5)
         {
             for (i = (pos - 4); i <= pos; i++)
             {
-                std::cout << "i: " << i << std::endl;
+                //std::cout << "i: " << i << std::endl;
                 predicttimestamps.push_back(timestamps[i]);
             }
         }
@@ -428,7 +440,7 @@ void MerkelMain::processUserInput(std::string userInput)
 
         for (std::string const& p : orderBook.getKnownProducts())
         {
-            if (p == predictCommand[2])
+            if (p == predictCommand[2]) // user enter product value
             {
                 std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
@@ -505,6 +517,10 @@ void MerkelMain::processUserInput(std::string userInput)
                     } // end if
                 } // end else
             } // end if
+            else
+            {
+                std::cout << "advisorBot> " << "Please enter a valid product, not: " << predictCommand[2] << std::endl;
+            }
         } // end for
     } // end else if 'predict'
 
@@ -593,7 +609,7 @@ void MerkelMain::processUserInput(std::string userInput)
 
             for (std::string const& p : orderBook.getKnownProducts())
             {
-                if (p == minCommand[1])
+                if (p == minCommand[1]) // user enter product value
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
 
@@ -609,6 +625,10 @@ void MerkelMain::processUserInput(std::string userInput)
 
                         std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
+                } // end if
+                else
+                {
+                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << minCommand[1] << std::endl;
                 }
             }
             break;
@@ -628,7 +648,7 @@ void MerkelMain::processUserInput(std::string userInput)
             }
             for (std::string const& p : orderBook.getKnownProducts())
             {
-                if (p == maxCommand[1])
+                if (p == maxCommand[1]) // user enter product value
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products; timestamps also works
 
@@ -644,6 +664,10 @@ void MerkelMain::processUserInput(std::string userInput)
 
                         std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                     }
+                } // end if
+                else
+                {
+                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << maxCommand[1] << std::endl;
                 }
             }
             break;
@@ -666,7 +690,7 @@ void MerkelMain::processUserInput(std::string userInput)
             
             // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
             pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
-            std::cout << "Index = " << pos << std::endl;
+            std::cout << "Index of current time = " << pos << std::endl;
             std::cout << std::endl;
             
             
@@ -678,7 +702,7 @@ void MerkelMain::processUserInput(std::string userInput)
                 avgtimestamps.push_back(timestamps[i]);
             }
 
-            // std::cout << "Length: " << avgtimestamps.size() << std::endl;
+             std::cout << "Length: " << avgtimestamps.size() << std::endl;
             
             for (std::string v : avgtimestamps)
             {
@@ -687,7 +711,7 @@ void MerkelMain::processUserInput(std::string userInput)
 
             for (std::string const& p : orderBook.getKnownProducts())
             {
-                if (p == avgCommand[1])
+                if (p == avgCommand[1]) // user enter product value
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
                     
@@ -732,6 +756,10 @@ void MerkelMain::processUserInput(std::string userInput)
                         std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
                     } // end else
                 } // end if
+                else
+                {
+                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << avgCommand[2] << std::endl;
+                }
             } // end for
 
             break;
@@ -754,14 +782,14 @@ void MerkelMain::processUserInput(std::string userInput)
 
             // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
             pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
-            std::cout << "Index = " << pos << std::endl;
+            std::cout << "Index of current time = " << pos << std::endl;
             std::cout << std::endl;
 
             if (pos > 5)
             {
                 for (i = (pos - 4); i <= pos; i++)
                 {
-                    std::cout << "i: " << i << std::endl;
+                    // std::cout << "i: " << i << std::endl;
                     predicttimestamps.push_back(timestamps[i]);
                 }
             }
@@ -770,16 +798,16 @@ void MerkelMain::processUserInput(std::string userInput)
                 std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
             }
 
-            // std::cout << "Length: " << predicttimestamps.size() << std::endl;
+             std::cout << "Length: " << predicttimestamps.size() << std::endl;
 
-            //for (std::string v : predicttimestamps)
-            //{
-            //    std::cout << "Timestamp: " << v << std::endl;
-            //}
+            for (std::string v : predicttimestamps)
+            {
+                std::cout << "Timestamp: " << v << std::endl;
+            }
 
             for (std::string const& p : orderBook.getKnownProducts())
             {
-                if (p == predictCommand[2])
+                if (p == predictCommand[2]) // user enter product value
                 {
                     std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
 
@@ -856,6 +884,10 @@ void MerkelMain::processUserInput(std::string userInput)
                         } // end if
                     } // end else
                 } // end if
+                else
+                {
+                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << predictCommand[2] << std::endl;
+                }
             } // end for
 
             break;
