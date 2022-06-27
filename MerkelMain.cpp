@@ -239,11 +239,7 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
 
                     std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                 }
-            }
-            else
-            {
-                std::cout << "advisorBot> " << "Please enter a valid product, not: " << minCommand[1] << std::endl;
-            }
+            } // end if
         } // end for
     }
 
@@ -280,11 +276,7 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
 
                     std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                 }
-            }
-            else
-            {
-                std::cout << "advisorBot> " << "Please enter a valid product, not: " << maxCommand[1] << std::endl;
-            }
+            } // end if
         } // end for
     }
 
@@ -307,23 +299,37 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
         {
             std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
         }
+
         std::cout << "The current time is: " << currentTime << std::endl;
         timestamps = orderBook.getTimestamps();
 
-        // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
-        pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
+        pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin(); // get position of current timestamp in vector of all timestamps
         std::cout << "Index of current time = " << pos << std::endl;
         std::cout << std::endl;
 
-        std::cout << avgCommand[3] << std::endl;
-
-        for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++)
+        if ((pos - std::stoi(avgCommand[3]) < 1))
         {
-            std::cout << "i: " << i << std::endl;
-            avgtimestamps.push_back(timestamps[i]);
+            std::cout << "The average cannot be computed, since the number of timestamps is less than input: " << avgCommand[3] << std::endl;
         }
 
-         std::cout << "Length: " << avgtimestamps.size() << std::endl;
+        try
+        {
+            if ((pos - std::stoi(avgCommand[3]) > 0))
+            {
+                for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++) // convert number of timestamps for average to integer
+                {
+                    std::cout << "i: " << i << std::endl;
+                    avgtimestamps.push_back(timestamps[i]);
+                }
+            }
+        }
+        catch (const std::exception& e) // if not able to separate user command, ask to re-enter
+        {
+            std::cout << "advisorBot> " << "The average cannot be computed since there are not enough time periods: " << avgCommand[3] << std::endl;
+        }
+
+
+        std::cout << "Length: " << avgtimestamps.size() << std::endl;
 
         for (std::string v : avgtimestamps)
         {
@@ -377,10 +383,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                     std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
                 } // end else
             } // end if
-            else
-            {
-                std::cout << "advisorBot> " << "Please enter a valid product, not: " << avgCommand[2] << std::endl;
-            }
         } // end for
     } // end else if 'avg'
 
@@ -413,7 +415,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
         std::cout << "The current time is: " << currentTime << std::endl;
         timestamps = orderBook.getTimestamps();
 
-        // std::cout << "Number of timestamps: " << timestamps.size() << std::endl;
         pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin();
         std::cout << "Index of curren time = " << pos << std::endl;
         std::cout << std::endl;
@@ -430,8 +431,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
         {
             std::cout << "Predict will only work when there are at least five timestamps!" << std::endl;
         }
-
-        // std::cout << "Length: " << predicttimestamps.size() << std::endl;
 
         for (std::string v : predicttimestamps)
         {
@@ -517,10 +516,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                     } // end if
                 } // end else
             } // end if
-            else
-            {
-                std::cout << "advisorBot> " << "Please enter a valid product, not: " << predictCommand[2] << std::endl;
-            }
         } // end for
     } // end else if 'predict'
 
@@ -535,10 +530,118 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
         std::cout << "advisorBot> " << "The current time period is: " << currentTime << std::endl << std::endl;
     }
 
-    else if (userInput == "my own")
+    else if (userInput == "stdev")
     {
-        std::cout << "advisorBot> " << "You " << std::endl << std::endl;
+    std::string avgInput;
+    std::vector<std::string> avgCommand;
+    std::vector<std::string> timestamps;
+    std::vector<std::string> avgtimestamps;
+    int i;
+    ptrdiff_t pos;
+    std::cout << "advisorBot> " << "Please enter a <avg> command in the following format: " << std::endl;
+    std::cout << "advisorBot> " << "stdev ETH/BTC ask 10" << std::endl;
+    std::getline(std::cin, avgInput);
+    std::cout << "advisorBot> " << "You entered: " << avgInput << std::endl << std::endl;
+    avgCommand = CSVReader::tokenise(avgInput, ' ');
+    for (const auto& command : avgCommand)
+        std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+    if (avgCommand[0] != "stdev")
+    {
+        std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
     }
+
+    std::cout << "The current time is: " << currentTime << std::endl;
+    timestamps = orderBook.getTimestamps();
+
+    pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin(); // get position of current timestamp in vector of all timestamps
+    std::cout << "Index of current time = " << pos << std::endl;
+    std::cout << std::endl;
+
+    if ((pos - std::stoi(avgCommand[3]) < 1))
+    {
+        std::cout << "The average cannot be computed, since the number of timestamps is less than input: " << avgCommand[3] << std::endl;
+    }
+
+    try
+    {
+        if ((pos - std::stoi(avgCommand[3]) > 0))
+        {
+            for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++) // convert number of timestamps for average to integer
+            {
+                std::cout << "i: " << i << std::endl;
+                avgtimestamps.push_back(timestamps[i]);
+            }
+        }
+    }
+    catch (const std::exception& e) // if not able to separate user command, ask to re-enter
+    {
+        std::cout << "advisorBot> " << "The average cannot be computed since there are not enough time periods: " << avgCommand[3] << std::endl;
+    }
+
+
+    std::cout << "Length: " << avgtimestamps.size() << std::endl;
+
+    for (std::string v : avgtimestamps)
+    {
+        std::cout << "Timestamp: " << v << std::endl;
+    }
+
+    for (std::string const& p : orderBook.getKnownProducts())
+    {
+        if (p == avgCommand[1]) // user enter product value
+        {
+            std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+            // std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+
+            if (avgCommand[2] == "bid")
+            {
+                int bidCount = 0;
+                double sum = 0;
+                double bidAvg = 0;
+                double std = 0;
+                double stdev = 0;
+                for (std::string const& t : avgtimestamps)
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
+
+                    std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                    std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                    double getAvg = OrderBook::getAvg(entries);
+                    std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                    bidCount += 1;
+                    sum += getAvg;
+                    bidAvg = sum / bidCount;
+                    for (i = 0; i < avgtimestamps.size(); i++)
+                    {
+                        std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - bidAvg, 2);
+                    }
+                    stdev = sqrt(std / 10);
+                }
+                std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
+            }
+            else
+            {
+                int askCount = 0;
+                double sum = 0;
+                double askAvg = 0;
+                for (std::string const& t : avgtimestamps)
+                {
+                    std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
+
+                    std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                    std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                    double getAvg = OrderBook::getAvg(entries);
+                    std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                    askCount += 1;
+                    sum += getAvg;
+                    askAvg = sum / askCount;
+                }
+                std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
+            } // end else
+        } // end if
+    } // end for
+    } // end else if 'stdev'
 
     else if (userInput == "enter commands")
     {
@@ -626,10 +729,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                         std::cout << "advisorBot> " << "Minimum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getLowPrice(entries) << std::endl << std::endl;
                     }
                 } // end if
-                else
-                {
-                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << minCommand[1] << std::endl;
-                }
             }
             break;
 
@@ -665,10 +764,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                         std::cout << "advisorBot> " << "Maximum bid " << "for timeperiod: " << currentTime << " is: " << OrderBook::getHighPrice(entries) << std::endl << std::endl;
                     }
                 } // end if
-                else
-                {
-                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << maxCommand[1] << std::endl;
-                }
             }
             break;
 
@@ -694,12 +789,25 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
             std::cout << std::endl;
             
             
-            std::cout << avgCommand[3]<<std::endl;
-
-            for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++)
+            if ((pos - std::stoi(avgCommand[3]) < 1))
             {
-                std::cout << "i: " << i << std::endl;
-                avgtimestamps.push_back(timestamps[i]);
+                std::cout << "The average cannot be computed, since the number of timestamps is less than input: " << avgCommand[3] << std::endl;
+            }
+
+            try
+            {
+                if ((pos - std::stoi(avgCommand[3]) > 0))
+                {
+                    for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++) // convert number of timestamps for average to integer
+                    {
+                        std::cout << "i: " << i << std::endl;
+                        avgtimestamps.push_back(timestamps[i]);
+                    }
+                }
+            }
+            catch (const std::exception& e) // if not able to separate user command, ask to re-enter
+            {
+                std::cout << "advisorBot> " << "The average cannot be computed since there are not enough time periods: " << avgCommand[3] << std::endl;
             }
 
              std::cout << "Length: " << avgtimestamps.size() << std::endl;
@@ -756,10 +864,6 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                         std::cout << "advisorBot> " << "The overall average ask for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
                     } // end else
                 } // end if
-                else
-                {
-                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << avgCommand[2] << std::endl;
-                }
             } // end for
 
             break;
@@ -884,28 +988,115 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                         } // end if
                     } // end else
                 } // end if
-                else
-                {
-                    std::cout << "advisorBot> " << "Please enter a valid product, not: " << predictCommand[2] << std::endl;
-                }
             } // end for
 
             break;
 
         case 6:
-            std::cout << "6: my own" << std::endl;
-            std::cout << "advisorBot> " << "Please enter a <my> command in the following format: " << std::endl;
-            std::cout << "advisorBot> " << "" << std::endl;
-            std::getline(std::cin, myInput);
-            std::transform(myInput.begin(), myInput.end(), myInput.begin(), [](unsigned char c) {return std::tolower(c); });
-            std::cout << "advisorBot> " << "You entered: " << myInput << std::endl << std::endl;
-            myCommand = CSVReader::tokenise(myInput, ' ');
-            for (const auto& command : myCommand)
-                std::cout << "You entered: " << command << std::endl;
-            if (myCommand[0] != "my")
-            {
-                std::cout << "advisorBot> " << "Please enter a valid <my> command!" << std::endl;
-            }
+            std::cout << "6: stdev" << std::endl;
+                std::cout << "advisorBot> " << "Please enter a <avg> command in the following format: " << std::endl;
+                std::cout << "advisorBot> " << "stdev ETH/BTC ask 10" << std::endl;
+                std::getline(std::cin, avgInput);
+                std::cout << "advisorBot> " << "You entered: " << avgInput << std::endl << std::endl;
+                avgCommand = CSVReader::tokenise(avgInput, ' ');
+                for (const auto& command : avgCommand)
+                    std::cout << "advisorBot> " << "You entered: " << command << std::endl;
+                if (avgCommand[0] != "stdev")
+                {
+                    std::cout << "advisorBot> " << "Please enter a valid <avg> command!" << std::endl;
+                }
+
+                std::cout << "The current time is: " << currentTime << std::endl;
+                timestamps = orderBook.getTimestamps();
+
+                pos = find(timestamps.begin(), timestamps.end(), currentTime) - timestamps.begin(); // get position of current timestamp in vector of all timestamps
+                std::cout << "Index of current time = " << pos << std::endl;
+                std::cout << std::endl;
+
+                if ((pos - std::stoi(avgCommand[3]) < 1))
+                {
+                    std::cout << "The average cannot be computed, since the number of timestamps is less than input: " << avgCommand[3] << std::endl;
+                }
+
+                try
+                {
+                    if ((pos - std::stoi(avgCommand[3]) > 0))
+                    {
+                        for (i = (pos - std::stoi(avgCommand[3]) + 1); i <= pos; i++) // convert number of timestamps for average to integer
+                        {
+                            std::cout << "i: " << i << std::endl;
+                            avgtimestamps.push_back(timestamps[i]);
+                        }
+                    }
+                }
+                catch (const std::exception& e) // if not able to separate user command, ask to re-enter
+                {
+                    std::cout << "advisorBot> " << "The average cannot be computed since there are not enough time periods: " << avgCommand[3] << std::endl;
+                }
+
+
+                std::cout << "Length: " << avgtimestamps.size() << std::endl;
+
+                for (std::string v : avgtimestamps)
+                {
+                    std::cout << "Timestamp: " << v << std::endl;
+                }
+
+                for (std::string const& p : orderBook.getKnownProducts())
+                {
+                    if (p == avgCommand[1]) // user enter product value
+                    {
+                        std::cout << "advisorBot> " << "Product: " << p << std::endl; // what are the products
+
+                        // std::cout << "TRADE: " << avgCommand[2] << std::endl << std::endl;
+
+                        if (avgCommand[2] == "bid")
+                        {
+                            int bidCount = 0;
+                            double sum = 0;
+                            double bidAvg = 0;
+                            double std = 0;
+                            double stdev = 0;
+                            for (std::string const& t : avgtimestamps)
+                            {
+                                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
+
+                                std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                                std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                                double getAvg = OrderBook::getAvg(entries);
+                                std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                                bidCount += 1;
+                                sum += getAvg;
+                                bidAvg = sum / bidCount;
+                                for (i = 0; i < avgtimestamps.size(); i++)
+                                {
+                                    std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - bidAvg, 2);
+                                }
+                                stdev = sqrt(std / 10);
+                            }
+                            std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
+                        }
+                        else
+                        {
+                            int askCount = 0;
+                            double sum = 0;
+                            double askAvg = 0;
+                            for (std::string const& t : avgtimestamps)
+                            {
+                                std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
+
+                                std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                                std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                                double getAvg = OrderBook::getAvg(entries);
+                                std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
+                                askCount += 1;
+                                sum += getAvg;
+                                askAvg = sum / askCount;
+                            }
+                            std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
+                        } // end else
+                    } // end if
+                } // end for
             break;
 
         case 7:
