@@ -605,8 +605,8 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                 {
                     std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
 
-                    std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
-                    std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                    // std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                    // std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                     double getAvg = OrderBook::getAvg(entries);
                     std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                     bidCount += 1;
@@ -616,7 +616,7 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                     {
                         std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - bidAvg, 2);
                     }
-                    stdev = sqrt(std / 10);
+                    stdev = sqrt(std / avgtimestamps.size());
                 }
                 std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
             }
@@ -625,19 +625,26 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                 int askCount = 0;
                 double sum = 0;
                 double askAvg = 0;
+                double std = 0;
+                double stdev = 0;
                 for (std::string const& t : avgtimestamps)
                 {
                     std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
 
-                    std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
-                    std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                    // std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                    // std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                     double getAvg = OrderBook::getAvg(entries);
                     std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                     askCount += 1;
                     sum += getAvg;
                     askAvg = sum / askCount;
+                    for (i = 0; i < avgtimestamps.size(); i++)
+                    {
+                        std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - askAvg, 2);
+                    }
+                    stdev = sqrt(std / avgtimestamps.size());
                 }
-                std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
+                std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
             } // end else
         } // end if
     } // end for
@@ -1061,8 +1068,8 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                             {
                                 std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, t);
 
-                                std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
-                                std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                                // std::cout << "advisorBot> " << "Minimum bid for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                                // std::cout << "advisorBot> " << "Maximum bid for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                                 double getAvg = OrderBook::getAvg(entries);
                                 std::cout << "advisorBot> " << "Average bid for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                                 bidCount += 1;
@@ -1072,7 +1079,7 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                                 {
                                     std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - bidAvg, 2);
                                 }
-                                stdev = sqrt(std / 10);
+                                stdev = sqrt(std / avgtimestamps.size());
                             }
                             std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
                         }
@@ -1081,19 +1088,26 @@ void MerkelMain::processUserInput(std::string userInput) // impelement the user 
                             int askCount = 0;
                             double sum = 0;
                             double askAvg = 0;
+                            double std = 0;
+                            double stdev = 0;
                             for (std::string const& t : avgtimestamps)
                             {
                                 std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::bid, p, t);
 
-                                std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
-                                std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
+                                // std::cout << "advisorBot> " << "Minimum ask for " << "timestamp: " << t << " is: " << OrderBook::getLowPrice(entries) << std::endl;
+                                // std::cout << "advisorBot> " << "Maximum ask for " << "timestamp: " << t << " is: " << OrderBook::getHighPrice(entries) << std::endl;
                                 double getAvg = OrderBook::getAvg(entries);
                                 std::cout << "advisorBot> " << "Average ask for " << "timestamp: " << t << " is: " << getAvg << std::endl << std::endl;
                                 askCount += 1;
                                 sum += getAvg;
                                 askAvg = sum / askCount;
+                                for (i = 0; i < avgtimestamps.size(); i++)
+                                {
+                                    std += pow((OrderBook::getLowPrice(entries) + OrderBook::getHighPrice(entries) / 2) - askAvg, 2);
+                                }
+                                stdev = sqrt(std / avgtimestamps.size());
                             }
-                            std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << askAvg << std::endl << std::endl;
+                            std::cout << "advisorBot> " << "The overall standard deviation for " << avgtimestamps.size() << " timestamp periods" << " is: " << stdev << std::endl << std::endl;
                         } // end else
                     } // end if
                 } // end for
